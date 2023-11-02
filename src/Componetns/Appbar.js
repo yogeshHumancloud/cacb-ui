@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router";
 
-const pages = ["Marathon", "Acitivity"];
+const pages = ["Projects", "Profile"];
 const settings = ["Logout"];
 
 function DashboardAppBar({ selectedTab, setSelectedTab }) {
