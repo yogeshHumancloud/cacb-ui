@@ -56,7 +56,7 @@ const projectListHeaderStyle = {
   marginRight: "16px",
 };
 
-export default function App() {
+export default function Dropbox() {
   const [open, setOpen] = useState(false);
   const [dropData, setDropData] = useState({
     name: "",
@@ -77,7 +77,7 @@ export default function App() {
   }, []);
 
   const handleButtonClick = () => {
-    if (!loading) {1
+    if (!loading) {
       setSuccess(false);
       setLoading(true);
       timer.current = window.setTimeout(() => {
@@ -111,7 +111,10 @@ export default function App() {
       timer.current = window.setTimeout(() => {
         setSuccess(true);
         setLoading(false);
-        setSaveData([...saveData, { name: dropData.name, file: dropData.file }]);
+        setSaveData([
+          ...saveData,
+          { name: dropData.name, file: dropData.file },
+        ]);
         setDropData({ name: "", file: null });
         setShowAlert(true);
         setOpen(false);
@@ -142,11 +145,7 @@ export default function App() {
           <Typography variant="h4" style={projectListHeaderStyle}>
             Project List
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleClickOpen}
-          >
+          <Button variant="contained" color="primary" onClick={handleClickOpen}>
             Add Another User
           </Button>
         </div>
@@ -198,11 +197,7 @@ export default function App() {
             </InputLabel>
           </DialogContent>
           <DialogActions style={dialogActionsStyle}>
-            <Button
-              onClick={handleCancel}
-              color="secondary"
-              variant="outlined"
-            >
+            <Button onClick={handleCancel} color="secondary" variant="outlined">
               Cancel
             </Button>
             <Box sx={{ position: "relative" }}>
