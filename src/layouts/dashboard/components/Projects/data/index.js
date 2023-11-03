@@ -37,32 +37,16 @@ import team4 from "assets/images/team-4.jpg";
 export default function data() {
   const avatars = (members) =>
     members.map(([image, name]) => (
-      <Tooltip key={name} title={name} placeholder="bottom">
-        <MDAvatar
-          src={image}
-          alt="name"
-          size="xs"
-          sx={{
-            border: ({ borders: { borderWidth }, palette: { white } }) =>
-              `${borderWidth[2]} solid ${white.main}`,
-            cursor: "pointer",
-            position: "relative",
-
-            "&:not(:first-of-type)": {
-              ml: -1.25,
-            },
-
-            "&:hover, &:focus": {
-              zIndex: "10",
-            },
-          }}
-        />
-      </Tooltip>
+      <MDTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
+        {name}
+      </MDTypography>
+      //     <Tooltip key={name} title={name} placeholder="bottom">
+      // </Tooltip>
     ));
 
   const Company = ({ image, name }) => (
     <MDBox display="flex" alignItems="center" lineHeight={1}>
-      <MDAvatar src={image} name={name} size="sm" />
+      {/* <MDAvatar src={image} name={name} size="sm" /> */}
       <MDTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
         {name}
       </MDTypography>
@@ -71,10 +55,9 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "companies", accessor: "companies", width: "45%", align: "left" },
-      { Header: "members", accessor: "members", width: "10%", align: "left" },
-      { Header: "budget", accessor: "budget", align: "center" },
-      { Header: "completion", accessor: "completion", align: "center" },
+      { Header: "PROject Name", accessor: "companies", width: "40%", align: "left" },
+      { Header: "File Name", accessor: "members", width: "20%", align: "left" },
+      { Header: "Status", accessor: "completion", align: "center" },
     ],
 
     rows: [
@@ -82,12 +65,7 @@ export default function data() {
         companies: <Company image={logoXD} name="Material UI XD Version" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team2, "Romina Hadid"],
-              [team3, "Alexander Smith"],
-              [team4, "Jessica Doe"],
-            ])}
+            {avatars([[team1, "Ryan Tompson.xls"]])}
           </MDBox>
         ),
         budget: (
@@ -105,10 +83,7 @@ export default function data() {
         companies: <Company image={logoAtlassian} name="Add Progress Track" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
-              [team2, "Romina Hadid"],
-              [team4, "Jessica Doe"],
-            ])}
+            {avatars([[team2, "Romina Hadid.csv"]])}
           </MDBox>
         ),
         budget: (
@@ -126,10 +101,7 @@ export default function data() {
         companies: <Company image={logoSlack} name="Fix Platform Errors" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team3, "Alexander Smith"],
-            ])}
+            {avatars([[team3, "Alexander Smith.xlxs"]])}
           </MDBox>
         ),
         budget: (
@@ -147,12 +119,7 @@ export default function data() {
         companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
-              [team4, "Jessica Doe"],
-              [team3, "Alexander Smith"],
-              [team2, "Romina Hadid"],
-              [team1, "Ryan Tompson"],
-            ])}
+            {avatars([[team4, "Jessica Doe.csv"], ,])}
           </MDBox>
         ),
         budget: (
@@ -170,7 +137,7 @@ export default function data() {
         companies: <Company image={logoJira} name="Add the New Pricing Page" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([[team4, "Jessica Doe"]])}
+            {avatars([[team4, "Ben Parker.csv"]])}
           </MDBox>
         ),
         budget: (
@@ -188,10 +155,7 @@ export default function data() {
         companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([
-              [team1, "Ryan Tompson"],
-              [team4, "Jessica Doe"],
-            ])}
+            {avatars([[team1, "Peter Parker.xlsx"]])}
           </MDBox>
         ),
         budget: (

@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState } from "react";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -35,7 +35,10 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
-
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate("/dashboard");
+  };
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   return (
@@ -78,7 +81,7 @@ function Basic() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton onClick={handleSubmit} variant="gradient" color="info" fullWidth>
                 sign in
               </MDButton>
             </MDBox>

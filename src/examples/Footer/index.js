@@ -67,12 +67,12 @@ function Footer({ company, links }) {
           </Icon>
         </MDBox>
         by
-        <Link href={href} target="_blank">
+        <Link href={"https://www.humancloud.ltd/"} target="_blank">
           <MDTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
+            &nbsp;{"Humancloud"}&nbsp;
           </MDTypography>
         </Link>
-        for a better web.
+        for CA Platform.
       </MDBox>
       <MDBox
         component="ul"
