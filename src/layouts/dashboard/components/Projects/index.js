@@ -31,13 +31,12 @@ import DataTable from "examples/Tables/DataTable";
 // Data
 import data from "layouts/dashboard/components/Projects/data";
 
-function Projects() {
-  const { columns, rows } = data();
+function Projects({ saveData, setSaveData }) {
+  const { columns, rows } = data(saveData);
   const [menu, setMenu] = useState(null);
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
   const closeMenu = () => setMenu(null);
-
   const renderMenu = (
     <Menu
       id="simple-menu"

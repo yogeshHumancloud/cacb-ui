@@ -34,9 +34,11 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import AddFile from "./components/Projects/AddFile";
+import { useState } from "react";
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+  const [saveData, setSaveData] = useState([]);
 
   return (
     <DashboardLayout>
@@ -45,7 +47,11 @@ function Dashboard() {
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-            <Projects />
+              {saveData.length ? (
+                <Projects saveData={saveData} setSaveData={setSaveData} />
+              ) : (
+                <AddFile saveData={saveData} setSaveData={setSaveData} />
+              )}
             </Grid>
           </Grid>
         </MDBox>

@@ -34,7 +34,7 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 
-export default function data() {
+export default function data(list) {
   const avatars = (members) =>
     members.map(([image, name]) => (
       <MDTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
@@ -59,116 +59,138 @@ export default function data() {
       { Header: "File Name", accessor: "members", width: "20%", align: "left" },
       { Header: "Status", accessor: "completion", align: "center" },
     ],
-
-    rows: [
-      {
-        companies: <Company image={logoXD} name="Material UI XD Version" />,
+    rows: list.map((item) => {
+      return {
+        companies: <Company image={logoXD} name={item.name} />,
         members: (
           <MDBox display="flex" py={1}>
-            {avatars([[team1, "Ryan Tompson.xls"]])}
+            {avatars([[team1, item.file.name]])}
           </MDBox>
         ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $14,000
-          </MDTypography>
-        ),
+        // budget: (
+        //   <MDTypography variant="caption" color="text" fontWeight="medium">
+        //     $14,000
+        //   </MDTypography>
+        // ),
         completion: (
           <MDBox width="8rem" textAlign="left">
-            <MDProgress value={60} color="info" variant="gradient" label={false} />
+            {/* <MDProgress value={100} color="info" variant="gradient" label={false} /> */}
+            <MDTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
+              In Progress
+            </MDTypography>
           </MDBox>
         ),
-      },
-      {
-        companies: <Company image={logoAtlassian} name="Add Progress Track" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team2, "Romina Hadid.csv"]])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $3,000
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={10} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoSlack} name="Fix Platform Errors" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team3, "Alexander Smith.xlxs"]])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            Not set
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={100} color="success" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team4, "Jessica Doe.csv"], ,])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $20,500
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={100} color="success" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoJira} name="Add the New Pricing Page" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team4, "Ben Parker.csv"]])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $500
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={25} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-      {
-        companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team1, "Peter Parker.xlsx"]])}
-          </MDBox>
-        ),
-        budget: (
-          <MDTypography variant="caption" color="text" fontWeight="medium">
-            $2,000
-          </MDTypography>
-        ),
-        completion: (
-          <MDBox width="8rem" textAlign="left">
-            <MDProgress value={40} color="info" variant="gradient" label={false} />
-          </MDBox>
-        ),
-      },
-    ],
+      };
+    }),
+    // rows: [
+    //   {
+    //     companies: <Company image={logoXD} name="Material UI XD Version" />,
+    //     members: (
+    //       <MDBox display="flex" py={1}>
+    //         {avatars([[team1, "Ryan Tompson.xls"]])}
+    //       </MDBox>
+    //     ),
+    //     budget: (
+    //       <MDTypography variant="caption" color="text" fontWeight="medium">
+    //         $14,000
+    //       </MDTypography>
+    //     ),
+    //     completion: (
+    //       <MDBox width="8rem" textAlign="left">
+    //         <MDProgress value={60} color="info" variant="gradient" label={false} />
+    //       </MDBox>
+    //     ),
+    //   },
+    //   {
+    //     companies: <Company image={logoAtlassian} name="Add Progress Track" />,
+    //     members: (
+    //       <MDBox display="flex" py={1}>
+    //         {avatars([[team2, "Romina Hadid.csv"]])}
+    //       </MDBox>
+    //     ),
+    //     budget: (
+    //       <MDTypography variant="caption" color="text" fontWeight="medium">
+    //         $3,000
+    //       </MDTypography>
+    //     ),
+    //     completion: (
+    //       <MDBox width="8rem" textAlign="left">
+    //         <MDProgress value={10} color="info" variant="gradient" label={false} />
+    //       </MDBox>
+    //     ),
+    //   },
+    //   {
+    //     companies: <Company image={logoSlack} name="Fix Platform Errors" />,
+    //     members: (
+    //       <MDBox display="flex" py={1}>
+    //         {avatars([[team3, "Alexander Smith.xlxs"]])}
+    //       </MDBox>
+    //     ),
+    //     budget: (
+    //       <MDTypography variant="caption" color="text" fontWeight="medium">
+    //         Not set
+    //       </MDTypography>
+    //     ),
+    //     completion: (
+    //       <MDBox width="8rem" textAlign="left">
+    //         <MDProgress value={100} color="success" variant="gradient" label={false} />
+    //       </MDBox>
+    //     ),
+    //   },
+    //   {
+    //     companies: <Company image={logoSpotify} name="Launch our Mobile App" />,
+    //     members: (
+    //       <MDBox display="flex" py={1}>
+    //         {avatars([[team4, "Jessica Doe.csv"], ,])}
+    //       </MDBox>
+    //     ),
+    //     budget: (
+    //       <MDTypography variant="caption" color="text" fontWeight="medium">
+    //         $20,500
+    //       </MDTypography>
+    //     ),
+    //     completion: (
+    //       <MDBox width="8rem" textAlign="left">
+    //         <MDProgress value={100} color="success" variant="gradient" label={false} />
+    //       </MDBox>
+    //     ),
+    //   },
+    //   {
+    //     companies: <Company image={logoJira} name="Add the New Pricing Page" />,
+    //     members: (
+    //       <MDBox display="flex" py={1}>
+    //         {avatars([[team4, "Ben Parker.csv"]])}
+    //       </MDBox>
+    //     ),
+    //     budget: (
+    //       <MDTypography variant="caption" color="text" fontWeight="medium">
+    //         $500
+    //       </MDTypography>
+    //     ),
+    //     completion: (
+    //       <MDBox width="8rem" textAlign="left">
+    //         <MDProgress value={25} color="info" variant="gradient" label={false} />
+    //       </MDBox>
+    //     ),
+    //   },
+    //   {
+    //     companies: <Company image={logoInvesion} name="Redesign New Online Shop" />,
+    //     members: (
+    //       <MDBox display="flex" py={1}>
+    //         {avatars([[team1, "Peter Parker.xlsx"]])}
+    //       </MDBox>
+    //     ),
+    //     budget: (
+    //       <MDTypography variant="caption" color="text" fontWeight="medium">
+    //         $2,000
+    //       </MDTypography>
+    //     ),
+    //     completion: (
+    //       <MDBox width="8rem" textAlign="left">
+    //         <MDProgress value={40} color="info" variant="gradient" label={false} />
+    //       </MDBox>
+    //     ),
+    //   },
+    // ],
   };
 }
