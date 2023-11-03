@@ -44,10 +44,7 @@ import {
 } from "examples/Navbars/DashboardNavbar/styles";
 
 // Material Dashboard 2 React context
-import {
-  useMaterialUIController,
-  setTransparentNavbar,
-} from "context";
+import { useMaterialUIController, setTransparentNavbar } from "context";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -174,7 +171,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 <Icon sx={iconsStyle}>account_circle</Icon>
               </IconButton>
               {renderProfileMenu()}
-              <IconButton
+              {/* <IconButton
                 size="small"
                 disableRipple
                 color="inherit"
@@ -186,7 +183,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon sx={iconsStyle}>notifications</Icon>
               </IconButton>
-              {renderMenu()}
+              {renderMenu()} */}
             </MDBox>
           </MDBox>
         )}

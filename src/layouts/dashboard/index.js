@@ -46,7 +46,7 @@ function Dashboard() {
       <MDBox py={3}>
         <MDBox>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid item xs={12} height={"70vh"}>
               {saveData.length ? (
                 <Projects saveData={saveData} setSaveData={setSaveData} />
               ) : (
