@@ -47,6 +47,7 @@ import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import AuthValidator from "layouts/AuthValidator";
 
 const routes = [
   {
@@ -55,7 +56,12 @@ const routes = [
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
-    component: <Dashboard />,
+    // component: isTokenValid() ? <Dashboard /> : <Redirect />,
+    component: (
+      <AuthValidator>
+        <Dashboard />
+      </AuthValidator>
+    ),
   },
   {
     type: "collapse",

@@ -32,6 +32,9 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import axios from "axios";
+import { baseUrl } from "utils/constants";
+import { apiV1 } from "utils/constants";
 
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -41,9 +44,15 @@ function Basic() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const submit = (data) => {
-    console.log(data);
-    // navigate("/dashboard");
+  const submit = async (data) => {
+    const res = await axios.post(baseUrl + apiV1 + "/auth/login", {
+      email: data.email,
+      password: data.password,
+    });
+    if (res.status === 200) {
+      sessionStorage.setItem("token", res.data.token);
+      navigate("/dashboard");
+    }
   };
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
