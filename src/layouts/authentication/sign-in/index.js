@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // react-router-dom components
 import { Link, useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-
+import { useForm } from "react-hook-form";
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 
@@ -36,8 +36,14 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-  const handleSubmit = () => {
-    navigate("/dashboard");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const submit = (data) => {
+    console.log(data);
+    // navigate("/dashboard");
   };
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
@@ -62,10 +68,40 @@ function Basic() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput
+                type="email"
+                label="Email"
+                name="email"
+                fullWidth
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
+                })}
+              />
+              {errors?.email ? (
+                <MDTypography variant="button" color="error">
+                  {errors?.email?.message}
+                </MDTypography>
+              ) : null}
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
+              <MDInput
+                type="password"
+                label="Password"
+                name="password"
+                fullWidth
+                {...register("password", {
+                  required: "Password is required", // Add required validation
+                })}
+              />
+              {errors?.password ? (
+                <MDTypography variant="button" color="error">
+                  {errors?.password?.message}
+                </MDTypography>
+              ) : null}
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={1.5}>
               <MDTypography
@@ -81,7 +117,7 @@ function Basic() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton onClick={handleSubmit} variant="gradient" color="info" fullWidth>
+              <MDButton onClick={handleSubmit(submit)} variant="gradient" color="info" fullWidth>
                 sign in
               </MDButton>
             </MDBox>
