@@ -1,3 +1,5 @@
+import React from "react";
+
 /**
 =========================================================
 * Material Dashboard 2 React - v2.2.0
@@ -31,13 +33,13 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
-import AddFile from "./components/Projects/AddFile";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "utils/constants";
 import { apiV1 } from "utils/constants";
+import AddFile from "layouts/dashboard/components/Projects/AddFile";
 
-function Dashboard() {
+export default function ProjectList() {
   const [saveData, setSaveData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(1);
@@ -96,5 +98,3 @@ function Dashboard() {
     </DashboardLayout>
   );
 }
-
-export default Dashboard;

@@ -33,7 +33,21 @@ import MDSnackbarIconRoot from "components/MDSnackbar/MDSnackbarIconRoot";
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
 
-function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...rest }) {
+function MDSnackbar({
+  color,
+  icon,
+  title,
+  dateTime,
+  content,
+  close,
+  bgWhite,
+  anchorOrigin = {
+    vertical: "bottom",
+    horizontal: "right",
+  },
+  autoHideDuration = 5000,
+  ...rest
+}) {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -58,11 +72,8 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
   return (
     <Snackbar
       TransitionComponent={Fade}
-      autoHideDuration={5000}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
+      autoHideDuration={autoHideDuration}
+      anchorOrigin={anchorOrigin}
       {...rest}
       action={
         <IconButton size="small" aria-label="close" color="inherit" onClick={close}>
@@ -104,9 +115,6 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
             </MDTypography>
           </MDBox>
           <MDBox display="flex" alignItems="center" lineHeight={0}>
-            <MDTypography variant="caption" color={dateTimeColor}>
-              {dateTime}
-            </MDTypography>
             <Icon
               sx={{
                 color: ({ palette: { dark, white } }) =>
@@ -121,24 +129,6 @@ function MDSnackbar({ color, icon, title, dateTime, content, close, bgWhite, ...
               close
             </Icon>
           </MDBox>
-        </MDBox>
-        <Divider sx={{ margin: 0 }} light={dividerColor} />
-        <MDBox
-          p={1.5}
-          sx={{
-            fontSize: ({ typography: { size } }) => size.sm,
-            color: ({ palette: { white, text } }) => {
-              let colorValue = bgWhite || color === "light" ? text.main : white.main;
-
-              if (darkMode) {
-                colorValue = color === "light" ? "inherit" : white.main;
-              }
-
-              return colorValue;
-            },
-          }}
-        >
-          {content}
         </MDBox>
       </MDBox>
     </Snackbar>
