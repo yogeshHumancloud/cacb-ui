@@ -33,7 +33,7 @@ import data from "layouts/dashboard/components/Projects/data";
 import MDButton from "components/MDButton";
 import AddFile from "./AddFile";
 
-function Projects({ saveData, setSaveData, open, setOpen, onSuccessPost }) {
+function Projects({ saveData, setSaveData, open, setOpen, onSuccessPost, count, setPage,page }) {
   const { columns, rows } = data(saveData);
   const [menu, setMenu] = useState(null);
 
@@ -90,6 +90,9 @@ function Projects({ saveData, setSaveData, open, setOpen, onSuccessPost }) {
       </MDBox>
       <MDBox>
         <DataTable
+          count={count}
+          pageNumber={page}
+          setPage={setPage}
           table={{ columns, rows }}
           showTotalEntries={false}
           isSorted={false}

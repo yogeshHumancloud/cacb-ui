@@ -38,6 +38,7 @@ import MDPagination from "components/MDPagination";
 // Material Dashboard 2 React example components
 import DataTableHeadCell from "examples/Tables/DataTable/DataTableHeadCell";
 import DataTableBodyCell from "examples/Tables/DataTable/DataTableBodyCell";
+import { Pagination } from "@mui/material";
 
 function DataTable({
   entriesPerPage,
@@ -63,12 +64,15 @@ function DataTable({
   );
 
   const {
+    count,
     getTableProps,
     getTableBodyProps,
     headerGroups,
     prepareRow,
     rows,
     page,
+    pageNumber,
+    setPage,
     pageOptions,
     canPreviousPage,
     canNextPage,
@@ -227,8 +231,15 @@ function DataTable({
         flexDirection={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
         alignItems={{ xs: "flex-start", sm: "center" }}
-        p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
+        // p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
+        p={2}
       >
+        <Pagination
+          count={count}
+          color="info"
+          page={pageNumber}
+          onChange={(e, page) => setPage(page)}
+        />
         {showTotalEntries && (
           <MDBox mb={{ xs: 3, sm: 0 }}>
             <MDTypography variant="button" color="secondary" fontWeight="regular">
