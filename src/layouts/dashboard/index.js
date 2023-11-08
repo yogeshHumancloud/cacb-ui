@@ -35,10 +35,29 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import AddFile from "./components/Projects/AddFile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { baseUrl } from "utils/constants";
+import { apiV1 } from "utils/constants";
 
 function Dashboard() {
   const [saveData, setSaveData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const headers = {
+    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  };
+  const getAllProject = async () => {
+    const res = await axios.get(baseUrl + apiV1 + "/project", { headers });
+    if (res.status === 200 && res.data.results.length) {
+      setSaveData(res.data.results);
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    getAllProject();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -47,10 +66,25 @@ function Dashboard() {
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} height={"70vh"}>
-              {saveData.length ? (
-                <Projects saveData={saveData} setSaveData={setSaveData} />
+              {isLoading ? (
+                <></>
+              ) : saveData.length ? (
+                <Projects
+                  saveData={saveData}
+                  setSaveData={setSaveData}
+                  open={open}
+                  setOpen={setOpen}
+                  onSuccessPost={getAllProject}
+                />
               ) : (
-                <AddFile saveData={saveData} setSaveData={setSaveData} />
+                <AddFile
+                  saveData={saveData}
+                  setSaveData={setSaveData}
+                  open={open}
+                  setOpen={setOpen}
+                  intilaScreen
+                  onSuccessPost={getAllProject}
+                />
               )}
             </Grid>
           </Grid>

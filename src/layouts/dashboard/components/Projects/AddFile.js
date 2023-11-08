@@ -22,9 +22,11 @@ import CheckIcon from "@mui/icons-material/Check";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import axios from "axios";
+import { baseUrl } from "utils/constants";
+import { apiV1 } from "utils/constants";
 
-const AddFile = ({ saveData, setSaveData }) => {
-  const [open, setOpen] = useState(false);
+const AddFile = ({ saveData, setSaveData, open, setOpen, onSuccessPost, intilaScreen = false }) => {
   const [dropData, setDropData] = useState({
     name: "",
     file: null,
@@ -88,7 +90,6 @@ const AddFile = ({ saveData, setSaveData }) => {
 
   const handleClose = () => {
     setOpen(false);
-    setShowAlert(false);
   };
 
   const handleFileChange = (file) => {
@@ -99,18 +100,30 @@ const AddFile = ({ saveData, setSaveData }) => {
     setDropData({ ...dropData, name: e.target.value });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (dropData.name && dropData.file) {
       setSuccess(false);
       setLoading(true);
-      timer.current = window.setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-        setSaveData([...saveData, { name: dropData.name, file: dropData.file }]);
-        setDropData({ name: "", file: null });
-        setShowAlert(true);
-        setOpen(false);
-      }, 2000);
+      const headers = {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      };
+      const res = await axios.post(
+        baseUrl + apiV1 + "/project",
+        { name: dropData.name, file_name: dropData.file.name },
+        { headers }
+      );
+      if (res.status === 201) {
+        const formdata = new FormData();
+        formdata.append("file", dropData.file);
+        const fileUpload = await axios.put(res.data.presignedURL, formdata);
+        if (fileUpload.status === 200) {
+          onSuccessPost();
+          setSuccess(true);
+          setLoading(false);
+          handleClose();
+        }
+      }
     }
   };
 
@@ -119,7 +132,7 @@ const AddFile = ({ saveData, setSaveData }) => {
     setOpen(false);
     setShowAlert(false);
   };
-  return (
+  return intilaScreen ? (
     <Box
       sx={{
         display: "flex",
@@ -215,6 +228,78 @@ const AddFile = ({ saveData, setSaveData }) => {
         </Box>
       </Dialog>
     </Box>
+  ) : (
+    <Dialog open={open} onClose={handleClose}>
+      <Box style={dialogStyle}>
+        <DialogTitle>Add New Project</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Please enter your name and select your file.</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Enter Name"
+            type="text"
+            fullWidth
+            value={dropData.name}
+            onChange={handleNameChange}
+          />
+          <InputLabel
+            htmlFor="avatar"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "1.5rem",
+            }}
+          >
+            <Box marginBottom={"1rem"}>Select file:</Box>
+            <Input
+              accept="image/*"
+              id="avatar"
+              type="file"
+              style={{ display: "none" }}
+              onChange={(e) => handleFileChange(e.target.files[0])}
+            />
+            <FileUploader
+              handleChange={(file) => handleFileChange(file)}
+              name="avatar"
+              types={["xlsx", "xlsm", "csv"]}
+            />
+          </InputLabel>
+        </DialogContent>
+        <DialogActions style={dialogActionsStyle}>
+          <MDBox mt={4} mb={1}>
+            <MDButton onClick={handleCancel} variant="gradient" color="error">
+              Cancel
+            </MDButton>
+          </MDBox>
+          <Box>
+            <Fab
+              aria-label="save"
+              color="primary"
+              sx={buttonStyle}
+              onClick={handleSave}
+              disabled={loading}
+            >
+              {success ? <CheckIcon /> : <SaveIcon />}
+            </Fab>
+            {loading && (
+              <CircularProgress
+                size={68}
+                sx={{
+                  color: "green[500]",
+                  position: "absolute", // Add absolute positioning to the CircularProgress
+                  top: "40%", // Position it in the middle vertically
+                  left: "40%", // Position it in the middle horizontally
+                  transform: "translate(-50%, -50%)", // Center it perfectly
+                  zIndex: 2, // Set a higher z-index to make it overlap
+                }}
+              />
+            )}
+          </Box>
+        </DialogActions>
+      </Box>
+    </Dialog>
   );
 };
 

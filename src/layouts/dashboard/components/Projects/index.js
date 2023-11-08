@@ -30,8 +30,10 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import data from "layouts/dashboard/components/Projects/data";
+import MDButton from "components/MDButton";
+import AddFile from "./AddFile";
 
-function Projects({ saveData, setSaveData }) {
+function Projects({ saveData, setSaveData, open, setOpen, onSuccessPost }) {
   const { columns, rows } = data(saveData);
   const [menu, setMenu] = useState(null);
 
@@ -65,7 +67,7 @@ function Projects({ saveData, setSaveData }) {
           <MDTypography variant="h6" gutterBottom>
             Projects
           </MDTypography>
-          <MDBox display="flex" alignItems="center" lineHeight={0}>
+          {/* <MDBox display="flex" alignItems="center" lineHeight={0}>
             <Icon
               sx={{
                 fontWeight: "bold",
@@ -78,14 +80,13 @@ function Projects({ saveData, setSaveData }) {
             <MDTypography variant="button" fontWeight="regular" color="text">
               &nbsp;<strong>30 done</strong> this month
             </MDTypography>
-          </MDBox>
+          </MDBox> */}
         </MDBox>
         <MDBox color="text" px={2}>
-          <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small" onClick={openMenu}>
-            more_vert
-          </Icon>
+          <MDButton variant="gradient" color="info" onClick={() => setOpen(true)}>
+            Add More
+          </MDButton>
         </MDBox>
-        {renderMenu}
       </MDBox>
       <MDBox>
         <DataTable
@@ -96,6 +97,13 @@ function Projects({ saveData, setSaveData }) {
           entriesPerPage={false}
         />
       </MDBox>
+      <AddFile
+        open={open}
+        setOpen={setOpen}
+        saveData={saveData}
+        setSaveData={setSaveData}
+        onSuccessPost={onSuccessPost}
+      />
     </Card>
   );
 }

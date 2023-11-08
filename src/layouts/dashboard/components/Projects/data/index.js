@@ -56,17 +56,17 @@ export default function data(list) {
   return {
     columns: [
       { Header: "PROject Name", accessor: "companies", width: "40%", align: "left" },
-      { Header: "File Name", accessor: "members", width: "20%", align: "left" },
+      // { Header: "File Name", accessor: "members", width: "20%", align: "left" },
       { Header: "Status", accessor: "completion", align: "center" },
     ],
     rows: list.map((item) => {
       return {
         companies: <Company image={logoXD} name={item.name} />,
-        members: (
-          <MDBox display="flex" py={1}>
-            {avatars([[team1, item.file.name]])}
-          </MDBox>
-        ),
+        // members: (
+        //   <MDBox display="flex" py={1}>
+        //     {avatars([[team1, item.file.name]])}
+        //   </MDBox>
+        // ),
         // budget: (
         //   <MDTypography variant="caption" color="text" fontWeight="medium">
         //     $14,000
@@ -76,7 +76,7 @@ export default function data(list) {
           <MDBox width="8rem" textAlign="left">
             {/* <MDProgress value={100} color="info" variant="gradient" label={false} /> */}
             <MDTypography variant="button" fontWeight="medium" ml={1} lineHeight={1}>
-              In Progress
+              {item.status}
             </MDTypography>
           </MDBox>
         ),

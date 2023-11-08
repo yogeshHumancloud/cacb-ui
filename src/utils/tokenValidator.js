@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 export const isTokenValid = () => {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   if (!token) {
     console.log("first");
     return false;
