@@ -35,9 +35,13 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import axios from "axios";
 import { baseUrl } from "utils/constants";
 import { apiV1 } from "utils/constants";
+import { useDispatch } from "react-redux";
+import { setAlert } from "reduxToolkit/alert/alertSlice";
 
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const {
     register,
@@ -51,6 +55,7 @@ function Basic() {
     });
     if (res.status === 200) {
       sessionStorage.setItem("token", res.data.token);
+      dispatch(setAlert({ message: "Login Success", color: "success" }));
       navigate("/dashboard");
     }
   };
