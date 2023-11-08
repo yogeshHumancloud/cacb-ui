@@ -53,6 +53,7 @@ function Cover() {
     setValue,
   } = useForm();
   const submit = async (data) => {
+    setEmail(data.email);
     const res = await axios.post(baseUrl + apiV1 + "/auth/register", {
       email: data.email,
       password: data.password,

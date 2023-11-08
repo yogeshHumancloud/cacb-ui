@@ -52,7 +52,7 @@ function Dashboard() {
   };
   const getAllProject = async () => {
     const res = await axios.get(baseUrl + apiV1 + "/project", { headers });
-    if (res.status === 200 && res.data.results.length) {
+    if (res.status === 200) {
       setSaveData(res.data.results);
       setIsLoading(false);
     }
@@ -70,7 +70,7 @@ function Dashboard() {
             <Grid item xs={12} height={"70vh"}>
               {isLoading ? (
                 <></>
-              ) : saveData.length ? (
+              ) : saveData.length > 0 ? (
                 <Projects
                   setPage={setPage}
                   count={count}

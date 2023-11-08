@@ -116,7 +116,7 @@ const AddFile = ({ saveData, setSaveData, open, setOpen, onSuccessPost, intilaSc
       if (res.status === 201) {
         const formdata = new FormData();
         formdata.append("file", dropData.file);
-        const fileUpload = await axios.put(res.data.presignedURL, formdata);
+        const fileUpload = await axios.put(res.data.presignedURL, dropData.file);
         if (fileUpload.status === 200) {
           onSuccessPost();
           setSuccess(true);
