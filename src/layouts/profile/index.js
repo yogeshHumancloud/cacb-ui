@@ -16,27 +16,15 @@ Coded by www.creative-tim.com
 // @mui material componentsimport React from 'react';
 
 import React, { useState } from 'react';
-import {
-  Paper,
-  Typography,
-  Grid,
-  Divider,
-  IconButton,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  Select,
-  MenuItem,
-  Button,
-} from '@material-ui/core';
+import {Paper,Typography,Grid,Divider,IconButton,TextField,Checkbox,FormControlLabel,Select,MenuItem,Button,} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 
 function Overview() {
   const [editing, setEditing] = useState(false);
-  const [fullName, setFullName] = useState('John Doe');
+  const [fullName, setFullName] = useState('');
   const [shippingAddress, setShippingAddress] = useState('');
   const [billingAddress, setBillingAddress] = useState('');
-  const [hasBillingAddress, setHasBillingAddress] = useState(true);
+  const [hasBillingAddress, setHasBillingAddress] = useState(false);
   const [organization, setOrganization] = useState('');
   const [email, setEmail] = useState('john.doe@example.com');
   const [mobilePhone, setMobilePhone] = useState('');
@@ -47,16 +35,7 @@ function Overview() {
   };
 
   const handleSaveClick = () => {
-    console.log({
-      fullName,
-      shippingAddress,
-      billingAddress,
-      hasBillingAddress,
-      organization,
-      email,
-      mobilePhone,
-      defaultCurrency,
-    });
+    
     setEditing(false);
   };
   const rows = [
@@ -86,7 +65,7 @@ function Overview() {
                     <div style={{ fontWeight: row.fontWeight }}>{row.name}</div>
                   </Grid>
                 </Grid>
-                {row.name === 'Full Name' && editing && (
+                {row.name === 'Full Name' && (editing ? (
                   <Grid item xs={12} style={{ paddingTop: '0', fontSize: '15px' }}>
                     <TextField
                       value={fullName}
@@ -94,8 +73,8 @@ function Overview() {
                       label="Full Name"
                     />
                   </Grid>
-                )}
-                {row.name === 'Add Address' && editing && (
+                ) : <Typography style={{marginLeft : '0.5rem'}}>{fullName}</Typography>)}
+                {row.name === 'Add Address'&& (editing ? (
                   <Grid item xs={12} style={{ paddingTop: '0', fontSize: '15px' }}>
                     <TextField
                       value={shippingAddress}
@@ -107,20 +86,22 @@ function Overview() {
                         <Checkbox
                           checked={hasBillingAddress}
                           onChange={() => setHasBillingAddress(!hasBillingAddress)}
+                          defaultChecked={false}
                         />
                       }
                       label="Use same address for Billing"
                     />
-                    {hasBillingAddress && (
+                    {!hasBillingAddress && (
                       <TextField
                         value={billingAddress}
                         onChange={(e) => setBillingAddress(e.target.value)}
                         label="Billing Address"
+
                       />
                     )}
                   </Grid>
-                )}
-                {row.name === 'Organization' && editing && (
+                ): <Typography style={{marginLeft : '0.5rem'}}>{hasBillingAddress}</Typography>)}
+                {row.name === 'Organization' && (editing ? (
                   <Grid item xs={12} style={{ paddingTop: '0', fontSize: '15px' }}>
                     <TextField
                       value={organization}
@@ -128,7 +109,7 @@ function Overview() {
                       label="Organization"
                     />
                   </Grid>
-                )}
+                ): <Typography style={{marginLeft : '0.5rem'}}>{organization}</Typography>)}
                 {row.name === 'Email' && (
                   <Grid item xs={12} style={{ paddingTop: '0', fontSize: '15px' }}>
                     <TextField
@@ -138,7 +119,7 @@ function Overview() {
                     />
                   </Grid>
                 )}
-                {row.name === 'Mobile Phone' && editing && (
+                {row.name === 'Mobile Phone' && (editing ? (
                   <Grid item xs={12} style={{ paddingTop: '0', fontSize: '15px' }}>
                     <TextField
                       value={mobilePhone}
@@ -146,17 +127,18 @@ function Overview() {
                       label="Mobile Phone"
                     />
                   </Grid>
-                )}
-                {row.name === 'Default currency' && editing && (
+                ): <Typography style={{marginLeft : '0.5rem'}}>{mobilePhone}</Typography>)}
+                {row.name === 'Default currency' && (editing ? (
                   <Grid item xs={12} style={{ paddingTop: '0', fontSize: '15px' }}>
                     <Select
                       value={defaultCurrency}
                       onChange={(e) => setDefaultCurrency(e.target.value)}
+                      disabled
                     >
                       <MenuItem value="INR">INR</MenuItem>
                     </Select>
                   </Grid>
-                )}
+                ): <Typography style={{marginLeft : '0.5rem'}}>{defaultCurrency}</Typography>)}
                 <Grid item xs={12}>
                   <Divider />
                 </Grid>
