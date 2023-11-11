@@ -22,9 +22,9 @@ import MenuItem from "@mui/material/MenuItem";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
-import SortIcon from '@mui/icons-material/Sort';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { TextField } from '@mui/material';
+import SortIcon from "@mui/icons-material/Sort";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { TextField } from "@mui/material";
 
 // import filterIcon
 
@@ -45,16 +45,15 @@ function Projects({ saveData, setSaveData, open, setOpen, onSuccessPost, count, 
   const [menu, setMenu] = useState(null);
 
   const [isSearchActive, setIsSearchActive] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   const handleSearchIconClick = () => {
     setIsSearchActive(!isSearchActive);
   };
 
   const handleSearch = () => {
-    console.log('Searching for:', searchText);
+    console.log("Searching for:", searchText);
   };
-
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
   const closeMenu = () => setMenu(null);
@@ -81,25 +80,25 @@ function Projects({ saveData, setSaveData, open, setOpen, onSuccessPost, count, 
 
   return (
     <Card>
-    <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-      <MDBox display="flex" alignItems="center">
-        <MDTypography variant="h6" gutterBottom>
-          Projects
-        </MDTypography>
-      </MDBox>
-  
-      <MDBox display="flex" alignItems="center">
-        <MDBox>
-          <IconButton>
-            <ArrowDropDownIcon />
-          </IconButton>
+      <MDBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+        <MDBox display="flex" alignItems="center">
+          <MDTypography variant="h6" gutterBottom>
+            Projects
+          </MDTypography>
         </MDBox>
-        <MDBox marginRight={2}>
-          <IconButton >
-            <SortIcon />
-          </IconButton>
-        </MDBox>
-        {isSearchActive && (
+
+        <MDBox display="flex" alignItems="center">
+          <MDBox>
+            <IconButton>
+              <ArrowDropDownIcon />
+            </IconButton>
+          </MDBox>
+          <MDBox marginRight={2}>
+            <IconButton>
+              <SortIcon />
+            </IconButton>
+          </MDBox>
+          {isSearchActive && (
             <TextField
               label="Search"
               variant="outlined"
@@ -108,35 +107,43 @@ function Projects({ saveData, setSaveData, open, setOpen, onSuccessPost, count, 
               onChange={(e) => setSearchText(e.target.value)}
             />
           )}
-        <MDBox>
-          <IconButton color="primary" onClick={() => {}}>
-            <SearchIcon color="primary" onClick={handleSearchIconClick}/>
-          </IconButton>
-        </MDBox>
-        <MDBox color="text" px={2}>
-          <MDButton variant="gradient" color="info" onClick={() => setOpen(true)} style={{color:'white', borderRadius:'5px'}}>
-            Add More
-          </MDButton>
+          <MDBox>
+            <IconButton color="primary" onClick={() => {}}>
+              <SearchIcon color="primary" onClick={handleSearchIconClick} />
+            </IconButton>
+          </MDBox>
+          <MDBox color="text" px={2}>
+            <MDButton
+              variant="gradient"
+              color="info"
+              onClick={() => setOpen(true)}
+              style={{ color: "white", borderRadius: "5px", padding: "0.7rem" }}
+            >
+              Add More
+            </MDButton>
+          </MDBox>
         </MDBox>
       </MDBox>
-    </MDBox>
-    <MDBox>
-      <DataTable
-        count={count}
-        pageNumber={page}
-        setPage={setPage}
-        table={{ columns, rows }}
-        showTotalEntries={false}
-        isSorted={false}
-        noEndBorder
-        entriesPerPage={false}
+      <MDBox>
+        <DataTable
+          count={count}
+          pageNumber={page}
+          setPage={setPage}
+          table={{ columns, rows }}
+          showTotalEntries={false}
+          isSorted={false}
+          noEndBorder
+          entriesPerPage={false}
+        />
+      </MDBox>
+      <AddFile
+        open={open}
+        setOpen={setOpen}
+        saveData={saveData}
+        setSaveData={setSaveData}
+        onSuccessPost={onSuccessPost}
       />
-    </MDBox>
-    <AddFile open={open} setOpen={setOpen} saveData={saveData} setSaveData={setSaveData} onSuccessPost={onSuccessPost} />
-  </Card>
-  
-
-
+    </Card>
   );
 }
 
