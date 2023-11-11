@@ -27,7 +27,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
-
+import coin from "../../../assets/images/coin.png";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
@@ -45,6 +45,8 @@ import {
 
 // Material Dashboard 2 React context
 import { useMaterialUIController, setTransparentNavbar } from "context";
+import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -157,6 +159,42 @@ function DashboardNavbar({ absolute, light, isMini }) {
             {/* <MDBox pr={1}>
               <MDInput label="Search here" />
             </MDBox> */}
+            <MDBox sx={{ display: "flex", alignItems: "center" }}>
+              <img style={{ height: "1.5rem" }} src={coin} alt="coin" />
+            </MDBox>
+            <MDBox
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "1rem",
+                marginLeft: "0.2rem",
+                paddingTop: "0.2rem",
+              }}
+            >
+              <MDTypography variant="regular" color="text">
+                50
+              </MDTypography>
+            </MDBox>
+            <MDBox
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "1rem",
+                paddingTop: "0.2rem",
+              }}
+            >
+              <MDButton
+                size="small"
+                variant="gradient"
+                color="info"
+                style={{ color: "white", borderRadius: "5px", padding: "0.55rem" }}
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              >
+                Recharge
+              </MDButton>
+            </MDBox>
             <MDBox color={light ? "white" : "inherit"}>
               <IconButton
                 onClick={handleMiniProfile}
