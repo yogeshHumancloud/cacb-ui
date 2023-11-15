@@ -37,8 +37,11 @@ import { baseUrl } from "utils/constants";
 import { apiV1 } from "utils/constants";
 import { useDispatch } from "react-redux";
 import { setAlert } from "reduxToolkit/alert/alertSlice";
+import Cookies from "universal-cookie";
+import { setUser } from "reduxToolkit/user/userSlice";
 
 function Basic() {
+  const cookies = new Cookies();
   const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
 
@@ -49,14 +52,26 @@ function Basic() {
     formState: { errors },
   } = useForm();
   const submit = async (data) => {
-    const res = await axios.post(baseUrl + apiV1 + "/auth/login", {
-      email: data.email,
-      password: data.password,
-    });
-    if (res.status === 200) {
-      sessionStorage.setItem("token", res.data.token);
-      dispatch(setAlert({ message: "Login Success", color: "success" }));
-      navigate("/dashboard");
+    try {
+      const res = await axios.post(baseUrl + apiV1 + "/auth/login", {
+        email: data.email,
+        password: data.password,
+      });
+      if (res.status === 200) {
+        console.log(res.data);
+        // sessionStorage.setItem("token", res.data.token);
+        cookies.set("token", res.data.token, {
+          path: "/",
+          expires: new Date(Date.now() + res.data.expires * 1000),
+        });
+        dispatch(setAlert({ message: "Login Success", color: "success" }));
+        dispatch(setUser(res.data.user));
+        navigate("/dashboard");
+      } else {
+        dispatch(setAlert({ message: res.data.error, color: "error" }));
+      }
+    } catch (e) {
+      dispatch(setAlert({ message: e.response.data.error, color: "error" }));
     }
   };
   const handleSetRememberMe = () => setRememberMe(!rememberMe);

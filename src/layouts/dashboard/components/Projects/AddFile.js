@@ -25,8 +25,13 @@ import MDButton from "components/MDButton";
 import axios from "axios";
 import { baseUrl } from "utils/constants";
 import { apiV1 } from "utils/constants";
+import Cookies from "universal-cookie";
+import { setAlert } from "reduxToolkit/alert/alertSlice";
+import { useDispatch } from "react-redux";
 
 const AddFile = ({ saveData, setSaveData, open, setOpen, onSuccessPost, intilaScreen = false }) => {
+  const cookies = new Cookies();
+  const dispatch = useDispatch();
   const [dropData, setDropData] = useState({
     name: "",
     file: null,
@@ -105,24 +110,35 @@ const AddFile = ({ saveData, setSaveData, open, setOpen, onSuccessPost, intilaSc
       setSuccess(false);
       setLoading(true);
       const headers = {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        Authorization: `Bearer ${cookies.get("token")}`,
         "Content-Type": "application/json",
       };
-      const res = await axios.post(
-        baseUrl + apiV1 + "/project",
-        { name: dropData.name, file_name: dropData.file.name },
-        { headers }
-      );
-      if (res.status === 201) {
-        const formdata = new FormData();
-        formdata.append("file", dropData.file);
-        const fileUpload = await axios.put(res.data.presignedURL, dropData.file);
-        if (fileUpload.status === 200) {
-          onSuccessPost();
-          setSuccess(true);
+      try {
+        const res = await axios.post(
+          baseUrl + apiV1 + "/project",
+          { name: dropData.name, file_name: dropData.file.name },
+          { headers }
+        );
+        if (res.status === 201) {
+          const formdata = new FormData();
+          formdata.append("file", dropData.file);
+          const fileUpload = await axios.put(res.data.presignedURL, dropData.file);
+          if (fileUpload.status === 200) {
+            onSuccessPost();
+            setSuccess(true);
+            setLoading(false);
+            handleClose();
+          }
+        } else {
+          dispatch(setAlert({ message: res.data.message, color: "error" }));
+          setSuccess(false);
           setLoading(false);
-          handleClose();
         }
+      } catch (e) {
+        console.log({ message: e.response });
+        dispatch(setAlert({ message: e.response.data.message, color: "error" }));
+        setSuccess(false);
+        setLoading(false);
       }
     }
   };

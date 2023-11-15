@@ -39,18 +39,24 @@ import { baseUrl } from "utils/constants";
 import { apiV1 } from "utils/constants";
 import AddFile from "layouts/dashboard/components/Projects/AddFile";
 
+import Cookies from "universal-cookie";
+
 export default function ProjectList() {
+  const cookies = new Cookies();
   const [saveData, setSaveData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const headers = {
-    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    Authorization: `Bearer ${cookies.get("token")}`,
     "Content-Type": "application/json",
   };
   const getAllProject = async () => {
-    const res = await axios.get(baseUrl + apiV1 + "/project", { headers });
+    const res = await axios.get(
+      baseUrl + apiV1 + "/project?projectBy=name,status,createdAt,updatedAt&sortBy=createdAt:desc",
+      { headers }
+    );
     if (res.status === 200) {
       setSaveData(res.data.results);
       setIsLoading(false);

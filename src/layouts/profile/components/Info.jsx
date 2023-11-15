@@ -3,7 +3,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import React from "react";
 
-const Info = ({ hasBillingAddress }) => {
+const Info = ({ hasBillingAddress, data }) => {
   return (
     <Grid container>
       <Grid item xs={12} md={6}>
@@ -21,7 +21,7 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              Suraj Deshmane
+              {data.name}
             </MDTypography>
           </MDBox>
 
@@ -32,7 +32,7 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              suraj.deshmane@humancloud.co.in
+              {data.email}
             </MDTypography>
           </MDBox>
 
@@ -43,7 +43,7 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              9999999999
+              {data.mobile_number ? data.mobile_number : "-"}
             </MDTypography>
           </MDBox>
 
@@ -54,7 +54,7 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              HDJSJSHJ-323232
+              {data.gst_number ? data.gst_number : "-"}
             </MDTypography>
           </MDBox>
 
@@ -65,7 +65,7 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              Humancloud
+              {data.org ? data.org : "-"}
             </MDTypography>
           </MDBox>
 
@@ -76,7 +76,7 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              INR
+              {data.currency ? data.currency : "-"}
             </MDTypography>
           </MDBox>
         </MDBox>
@@ -96,16 +96,21 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              Prime Bay Plaza,opp. to chroma
+              {data.billing?.address ? data.billing?.address : "-"}
             </MDTypography>
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              Maharashtra, Pune - 411021
+              {data?.billing?.address ? data?.billing?.address : "-"}
             </MDTypography>
           </MDBox>
           <MDBox mb={2}>
-            <Checkbox checked={hasBillingAddress} sx={{ padding: 0 }} />
+            <Checkbox
+              defaultChecked={data.sameAsBilling}
+              checked={data.sameAsBilling}
+              sx={{ padding: 0 }}
+              disabled
+            />
             <MDTypography variant="button" fontWeight="regular" color="text" ml={1}>
               Shipping Address same as Billing Address
             </MDTypography>
@@ -117,12 +122,12 @@ const Info = ({ hasBillingAddress }) => {
           </MDBox>
           <MDBox>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              Prime Bay Plaza,opp. to chroma
+              {data?.shipping?.address ? data?.shipping?.address : "-"}
             </MDTypography>
           </MDBox>
           <MDBox>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              Maharashtra, Pune - 411021
+              {data?.shipping?.address ? data?.shipping?.address : "-"}
             </MDTypography>
           </MDBox>
         </MDBox>

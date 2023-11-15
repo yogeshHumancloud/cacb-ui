@@ -1,16 +1,18 @@
 import { jwtDecode } from "jwt-decode";
+import Cookies from "universal-cookie";
 
 export const isTokenValid = () => {
-  const token = sessionStorage.getItem("token");
+  const cookies = new Cookies();
+  const token = cookies.get("token");
   if (!token) {
-    console.log("first");
     return false;
   }
   const decodedToken = jwtDecode(token);
+
   if (decodedToken?.exp * 1000 < Date.now()) {
     console.log("sec");
 
     return false;
   }
-  return true;
+  return token;
 };

@@ -47,8 +47,11 @@ import {
 import { useMaterialUIController, setTransparentNavbar } from "context";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import { useSelector } from "react-redux";
+import Cookies from "universal-cookie";
 
 function DashboardNavbar({ absolute, light, isMini }) {
+  const cookies = new Cookies();
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const { transparentNavbar, fixedNavbar, darkMode } = controller;
@@ -56,6 +59,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const route = useLocation().pathname.split("/").slice(1);
   const [openMenuAcc, setOpenMenuAcc] = useState(false);
   const navigate = useNavigate();
+
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
     // Setting the navbar type
@@ -124,7 +129,10 @@ function DashboardNavbar({ absolute, light, isMini }) {
         title="Profile"
       />
       <NotificationItem
-        onClick={() => navigate("/authentication/sign-in")}
+        onClick={() => {
+          cookies.remove("token");
+          navigate("/authentication/sign-in");
+        }}
         icon={<Icon>podcasts</Icon>}
         title="Logout"
       />
@@ -172,7 +180,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               }}
             >
               <MDTypography variant="regular" color="text">
-                50
+                {user?.data?.credits}
               </MDTypography>
             </MDBox>
             <MDBox

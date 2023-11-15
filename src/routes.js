@@ -48,6 +48,7 @@ import SignUp from "layouts/authentication/sign-up";
 import Icon from "@mui/material/Icon";
 import AuthValidator from "layouts/AuthValidator";
 import ProjectList from "layouts/project";
+import TransactionsTable from "layouts/transactions";
 import Profile from "layouts/profile";
 
 const routes = [
@@ -102,7 +103,11 @@ const routes = [
     key: "project",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/project",
-    component: <ProjectList />,
+    component: (
+      <AuthValidator>
+        <ProjectList />
+      </AuthValidator>
+    ),
   },
   {
     type: "collapse",
@@ -110,7 +115,11 @@ const routes = [
     key: "transactions",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/transactions",
-    component: <Tables />,
+    component: (
+      <AuthValidator>
+        <TransactionsTable />
+      </AuthValidator>
+    ),
   },
   {
     type: "collapse",
@@ -118,7 +127,11 @@ const routes = [
     key: "profile",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
-    component: <Profile />,
+    component: (
+      <AuthValidator>
+        <Profile />
+      </AuthValidator>
+    ),
   },
   {
     type: "collapse",

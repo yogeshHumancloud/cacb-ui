@@ -36,19 +36,27 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "utils/constants";
 import { apiV1 } from "utils/constants";
+import Cookies from "universal-cookie";
+import Transactions from "layouts/billing/components/Transactions";
 
 function Dashboard() {
+  const cookies = new Cookies();
   const [saveData, setSaveData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const headers = {
-    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    Authorization: `Bearer ${cookies.get("token")}`,
     "Content-Type": "application/json",
   };
   const getAllProject = async () => {
-    const res = await axios.get(baseUrl + apiV1 + "/project", { headers });
+    const res = await axios.get(
+      baseUrl +
+        apiV1 +
+        "/project?projectBy=name,status,createdAt,updatedAt&sortBy=createdAt:desc&limit=5",
+      { headers }
+    );
     if (res.status === 200) {
       setSaveData(res.data.results);
       setIsLoading(false);
@@ -64,10 +72,10 @@ function Dashboard() {
       <MDBox py={3} minHeight={"80vh"}>
         <MDBox>
           <Grid container spacing={3}>
-            <Grid item xs={12} height={"70vh"}>
-              {isLoading ? (
-                <></>
-              ) : saveData.length > 0 ? (
+            {isLoading ? (
+              <></>
+            ) : saveData.length > 0 ? (
+              <Grid item xs={8} height={"70vh"}>
                 <Projects
                   setPage={setPage}
                   count={count}
@@ -78,7 +86,9 @@ function Dashboard() {
                   setOpen={setOpen}
                   onSuccessPost={getAllProject}
                 />
-              ) : (
+              </Grid>
+            ) : (
+              <Grid item xs={12} height={"70vh"}>
                 <AddFile
                   saveData={saveData}
                   setSaveData={setSaveData}
@@ -87,8 +97,8 @@ function Dashboard() {
                   intilaScreen
                   onSuccessPost={getAllProject}
                 />
-              )}
-            </Grid>
+              </Grid>
+            )}
           </Grid>
         </MDBox>
       </MDBox>

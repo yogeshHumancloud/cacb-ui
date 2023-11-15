@@ -4,7 +4,7 @@ import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
 import React from "react";
 
-const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress }) => {
+const EditForm = ({ register, errors, setData, data }) => {
   return (
     <Grid container>
       <Grid item xs={12} md={6}>
@@ -32,6 +32,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
           <MDBox mb={3} width={{ xs: "100%", lg: "75%" }}>
             <MDInput
               label="Email"
+              disabled
               fullWidth
               {...register("email", {
                 required: "Email is required",
@@ -51,13 +52,13 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
             <MDInput
               label="Mobile No."
               fullWidth
-              {...register("mobileNo", {
-                required: "Mobile No. is required",
+              {...register("mobile_number", {
+                // required: "Mobile No. is required",
               })}
             />
-            {errors?.mobileNo ? (
+            {errors?.mobile_number ? (
               <MDTypography variant="button" color="error">
-                {errors?.mobileNo?.message}
+                {errors?.mobile_number?.message}
               </MDTypography>
             ) : null}
           </MDBox>
@@ -65,13 +66,13 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
             <MDInput
               label="GST No."
               fullWidth
-              {...register("gstno", {
-                required: "GST No. is required",
+              {...register("gstNo", {
+                // required: "GST No. is required",
               })}
             />
-            {errors?.gstno ? (
+            {errors?.gstNo ? (
               <MDTypography variant="button" color="error">
-                {errors?.gstno?.message}
+                {errors?.gstNo?.message}
               </MDTypography>
             ) : null}
           </MDBox>
@@ -79,13 +80,13 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
             <MDInput
               label="Organization"
               fullWidth
-              {...register("organazationName", {
-                required: "Organization is required",
+              {...register("organization", {
+                // required: "Organization is required",
               })}
             />
-            {errors?.organazationName ? (
+            {errors?.organization ? (
               <MDTypography variant="button" color="error">
-                {errors?.organazationName?.message}
+                {errors?.organization?.message}
               </MDTypography>
             ) : null}
           </MDBox>
@@ -94,7 +95,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
               fullWidth
               label="Currency"
               {...register("currency", {
-                required: "Currency is required",
+                // required: "Currency is required",
               })}
             />
             {errors?.currency ? (
@@ -118,7 +119,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
               fullWidth
               label="Area"
               {...register("billArea", {
-                required: "Area is required",
+                // required: "Area is required",
               })}
             />
             {errors?.billArea ? (
@@ -132,7 +133,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
               fullWidth
               label="City"
               {...register("billCity", {
-                required: "City is required",
+                // required: "City is required",
               })}
             />
             {errors?.billCity ? (
@@ -146,7 +147,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
               fullWidth
               label="State"
               {...register("billState", {
-                required: "State is required",
+                // required: "State is required",
               })}
             />
             {errors?.billState ? (
@@ -160,7 +161,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
               fullWidth
               label="Country"
               {...register("billCountry", {
-                required: "Country is required",
+                // required: "Country is required",
               })}
             />
             {errors?.billCountry ? (
@@ -174,7 +175,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
               fullWidth
               label="Pincode"
               {...register("billPincode", {
-                required: "Pincode is required",
+                // required: "Pincode is required",
               })}
             />
             {errors?.billPincode ? (
@@ -185,9 +186,13 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
           </MDBox>
           <MDBox mb={2}>
             <Checkbox
-              checked={hasBillingAddress}
+              defaultChecked={data.sameAsBilling}
+              checked={data.sameAsBilling}
+              {...register("sameAsBilling", {
+                // required: "Pincode is required",
+              })}
               onChange={() => {
-                setHasBillingAddress(!hasBillingAddress);
+                setData({ ...data, sameAsBilling: !data.sameAsBilling });
               }}
               sx={{ padding: 0 }}
             />
@@ -197,7 +202,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
           </MDBox>
         </MDBox>
       </Grid>
-      {!hasBillingAddress ? (
+      {!data.sameAsBilling ? (
         <>
           <Grid item xs={12} md={6}></Grid>
           <Grid item xs={12} md={6}>
@@ -213,7 +218,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
                   fullWidth
                   label="Area"
                   {...register("shipArea", {
-                    required: "Area is required",
+                    // required: "Area is required",
                   })}
                 />
                 {errors?.shipArea ? (
@@ -227,7 +232,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
                   fullWidth
                   label="City"
                   {...register("shipCity", {
-                    required: "City is required",
+                    // required: "City is required",
                   })}
                 />
                 {errors?.shipCity ? (
@@ -241,7 +246,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
                   fullWidth
                   label="State"
                   {...register("shipState", {
-                    required: "State is required",
+                    // required: "State is required",
                   })}
                 />
                 {errors?.shipState ? (
@@ -255,7 +260,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
                   fullWidth
                   label="Country"
                   {...register("shipCountry", {
-                    required: "Country is required",
+                    // required: "Country is required",
                   })}
                 />
                 {errors?.shipCountry ? (
@@ -269,7 +274,7 @@ const EditForm = ({ register, errors, setHasBillingAddress, hasBillingAddress })
                   fullWidth
                   label="Pincode"
                   {...register("shipPincode", {
-                    required: "Pincode is required",
+                    // required: "Pincode is required",
                   })}
                 />
                 {errors?.shipPincode ? (

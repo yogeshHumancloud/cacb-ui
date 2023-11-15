@@ -26,38 +26,45 @@ import MDButton from "components/MDButton";
 import { useForm } from "react-hook-form";
 import EditForm from "./components/EditForm";
 import Info from "./components/Info";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { baseUrl } from "utils/constants";
+import { apiV1 } from "utils/constants";
+import Cookies from "universal-cookie";
+import { setUser } from "reduxToolkit/user/userSlice";
 
 function Profile() {
+  const cookies = new Cookies();
   const [editing, setEditing] = useState(false);
-  const [hasBillingAddress, setHasBillingAddress] = useState(false);
 
-  const intailValue = {
-    name: "Suraj Deshmane",
-    gstno: "HDJSJSHJ-323232",
-    organazationName: "Humancloud",
-    email: "suraj.deshmane@humancloud.co.in",
-    mobileNo: "9999999999",
-    currency: "INR",
-    billArea: "Prime Plaza Bay",
-    billCity: "Pune",
-    billState: "Maharashtra",
-    billCountry: "India",
-    billPincode: "411045",
-    sameAsBill: true,
-    shipArea: "Prime Plaza Bay",
-    shipCity: "Pune",
-    shipState: "Maharashtra",
-    shipCountry: "India",
-    shipPincode: "411045",
-  };
+  const user = useSelector((store) => store.user.data);
+  const dispatch = useDispatch();
+
+  const [intailValue, setInitialValue] = useState({ ...user });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: intailValue });
-  const submit = (data) => {
-    console.log({ data });
+
+  const submit = async (data) => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${cookies.get("token")}`,
+        "Content-Type": "application/json",
+      };
+
+      const res = await axios.patch(baseUrl + apiV1 + `/users/${data.id}`, data, { headers });
+      if (res.status === 200) {
+        setEditing(false);
+        dispatch(setUser(res.data));
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -99,11 +106,11 @@ function Profile() {
           <EditForm
             register={register}
             errors={errors}
-            setHasBillingAddress={setHasBillingAddress}
-            hasBillingAddress={hasBillingAddress}
+            data={intailValue}
+            setData={setInitialValue}
           />
         ) : (
-          <Info hasBillingAddress={hasBillingAddress} />
+          <Info data={intailValue} />
         )}
       </Card>
     </DashboardLayout>
