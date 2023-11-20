@@ -124,6 +124,18 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Users",
+    key: "users",
+    icon: <Icon fontSize="small">people</Icon>,
+    route: "/users",
+    component: (
+      <AuthValidator>
+        <Users />
+      </AuthValidator>
+    ),
+  },
+  {
+    type: "collapse",
     name: "Profile",
     key: "profile",
     icon: <Icon fontSize="small">person</Icon>,
@@ -134,7 +146,6 @@ const routes = [
       </AuthValidator>
     ),
   },
-
   {
     type: "collapse",
     name: "Sign In",

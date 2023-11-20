@@ -45,6 +45,7 @@ import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
 import routes from "routes";
+import adminroutes from "adminroutes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -53,6 +54,7 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import AlertProvider from "components/AlertProvider";
+import { useSelector } from "react-redux";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -69,6 +71,8 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+
+  const user = useSelector((store) => store.user.data);
 
   // Cache for the rtl
   useMemo(() => {
@@ -157,7 +161,7 @@ export default function App() {
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName="Remittance"
-              routes={routes.filter((route) => {
+              routes={(user?.role === "admin" ? adminroutes : routes).filter((route) => {
                 !route.name.includes("sign");
               })}
               onMouseEnter={handleOnMouseEnter}
@@ -169,7 +173,7 @@ export default function App() {
         )}
         {layout === "vr" && <Configurator />}
         <Routes>
-          {getRoutes(routes)}
+          {getRoutes(user?.role === "admin" ? adminroutes : routes)}
           <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
         </Routes>
       </ThemeProvider>
@@ -184,7 +188,7 @@ export default function App() {
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName="Remittance"
-              routes={routes.filter((route) => {
+              routes={(user?.role === "admin" ? adminroutes : routes).filter((route) => {
                 return !route.name.includes("Sign") && route;
               })}
               onMouseEnter={handleOnMouseEnter}
@@ -196,7 +200,7 @@ export default function App() {
         )}
         {layout === "vr" && <Configurator />}
         <Routes>
-          {getRoutes(routes)}
+          {getRoutes(user?.role === "admin" ? adminroutes : routes)}
           <Route path="*" element={<Navigate to="/authentication/sign-in" />} />
         </Routes>
       </AlertProvider>

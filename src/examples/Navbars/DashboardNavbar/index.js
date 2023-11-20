@@ -49,6 +49,23 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import { useSelector } from "react-redux";
 import Cookies from "universal-cookie";
+import axios from "axios";
+import { apiV1 } from "utils/constants";
+import { baseUrl } from "utils/constants";
+
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
 
 function DashboardNavbar({ absolute, light, isMini }) {
   const cookies = new Cookies();
@@ -59,8 +76,75 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const route = useLocation().pathname.split("/").slice(1);
   const [openMenuAcc, setOpenMenuAcc] = useState(false);
   const navigate = useNavigate();
-
   const user = useSelector((store) => store.user);
+
+  const headers = {
+    Authorization: `Bearer ${cookies.get("token")}`,
+    "Content-Type": "application/json",
+  };
+
+  async function displayRazorpay() {
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    // creating a new order
+    const result = await axios.post(
+      `${baseUrl}${apiV1}/payment/orders`,
+      {
+        amount: "50000",
+        currency: "INR",
+      },
+      { headers }
+    );
+
+    if (!result) {
+      alert("Server error. Are you online?");
+      return;
+    }
+
+    // Getting the order details back
+    const { amount, id: order_id, currency } = result.data;
+
+    const options = {
+      key: "rzp_test_sxAsCU8KfaYLaw", // Enter the Key ID generated from the Dashboard
+      amount: amount.toString(),
+      currency: currency,
+      name: user.data?.name,
+      description: "Test Transaction",
+      image: { logo: coin },
+      order_id: order_id,
+      handler: async function (response) {
+        const data = {
+          orderCreationId: order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpayOrderId: response.razorpay_order_id,
+          razorpaySignature: response.razorpay_signature,
+        };
+
+        const result = await axios.post(`${baseUrl}${apiV1}/payment/success`, data, { headers });
+
+        alert(result.data.msg);
+      },
+      prefill: {
+        name: user?.data?.name,
+        email: user?.data?.email,
+        contact: user?.data?.mobile_number,
+      },
+      notes: {
+        address: user?.data?.billingAddress,
+      },
+      theme: {
+        color: "#42424a",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  }
 
   useEffect(() => {
     // Setting the navbar type
@@ -197,7 +281,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 color="info"
                 style={{ color: "white", borderRadius: "5px", padding: "0.55rem" }}
                 onClick={() => {
-                  navigate("/profile");
+                  // navigate("/profile");
+                  displayRazorpay();
                 }}
               >
                 Recharge

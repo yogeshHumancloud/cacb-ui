@@ -40,7 +40,19 @@ function Profile() {
   const user = useSelector((store) => store.user.data);
   const dispatch = useDispatch();
 
-  const [intailValue, setInitialValue] = useState({ ...user });
+  const [intailValue, setInitialValue] = useState({
+    ...user,
+    billArea: user.billingAddress.street,
+    billCity: user.billingAddress.city,
+    billState: user.billingAddress.state,
+    billCountry: user.billingAddress.country,
+    billPincode: user.billingAddress.postalCode,
+    shipArea: user.shippingAddress.street,
+    shipCity: user.shippingAddress.city,
+    shipState: user.shippingAddress.state,
+    shipCountry: user.shippingAddress.country,
+    shipPincode: user.shippingAddress.postalCode,
+  });
 
   const {
     register,
@@ -48,7 +60,45 @@ function Profile() {
     formState: { errors },
   } = useForm({ defaultValues: intailValue });
 
-  const submit = async (data) => {
+  const submit = async (formdata) => {
+    let data = { ...formdata };
+    data.billingAddress = {
+      street: formdata.billArea,
+      city: formdata.billCity,
+      state: formdata.billState,
+      country: formdata.billCountry,
+      postalCode: formdata.billPincode,
+    };
+
+    if (data.sameAsBilling) {
+      data.shippingAddress = {
+        street: formdata.billArea,
+        city: formdata.billCity,
+        state: formdata.billState,
+        country: formdata.billCountry,
+        postalCode: formdata.billPincode,
+      };
+    } else {
+      data.shippingAddress = {
+        street: formdata.shipArea,
+        city: formdata.shipCity,
+        state: formdata.shipState,
+        country: formdata.shipCountry,
+        postalCode: formdata.shipPincode,
+      };
+    }
+
+    delete data.billArea;
+    delete data.billCity;
+    delete data.billState;
+    delete data.billCountry;
+    delete data.billPincode;
+    delete data.shipArea;
+    delete data.shipCity;
+    delete data.shipState;
+    delete data.shipCountry;
+    delete data.shipPincode;
+
     try {
       const headers = {
         Authorization: `Bearer ${cookies.get("token")}`,

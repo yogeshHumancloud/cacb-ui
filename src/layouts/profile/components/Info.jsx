@@ -54,7 +54,7 @@ const Info = ({ hasBillingAddress, data }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              {data.gst_number ? data.gst_number : "-"}
+              {data.gstNo ? data.gstNo : "-"}
             </MDTypography>
           </MDBox>
 
@@ -65,7 +65,7 @@ const Info = ({ hasBillingAddress, data }) => {
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              {data.org ? data.org : "-"}
+              {data.organization ? data.organization : "-"}
             </MDTypography>
           </MDBox>
 
@@ -96,12 +96,16 @@ const Info = ({ hasBillingAddress, data }) => {
           </MDBox>
           <MDBox>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              {data.billing?.address ? data.billing?.address : "-"}
+              {`${data.billingAddress?.street ? data.billingAddress?.street : "-"} - ${
+                data.billingAddress?.city ? data.billingAddress?.city : ""
+              }`}
             </MDTypography>
           </MDBox>
           <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              {data?.billing?.address ? data?.billing?.address : "-"}
+              {`${data?.billingAddress?.state ? data?.billingAddress?.state : ""} - ${
+                data?.billingAddress?.country ? data?.billingAddress?.country : ""
+              } - ${data?.billingAddress?.postalCode ? data?.billingAddress?.postalCode : ""}`}
             </MDTypography>
           </MDBox>
           <MDBox mb={2}>
@@ -122,12 +126,16 @@ const Info = ({ hasBillingAddress, data }) => {
           </MDBox>
           <MDBox>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              {data?.shipping?.address ? data?.shipping?.address : "-"}
+              {`${data.shippingAddress?.street ? data.shippingAddress?.street : "-"} - ${
+                data.shippingAddress?.city ? data.shippingAddress?.city : ""
+              }`}
             </MDTypography>
           </MDBox>
-          <MDBox>
+          <MDBox mb={2}>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              {data?.shipping?.address ? data?.shipping?.address : "-"}
+              {`${data?.shippingAddress?.state ? data?.shippingAddress?.state : ""} - ${
+                data?.shippingAddress?.country ? data?.shippingAddress?.country : ""
+              } - ${data?.shippingAddress?.postalCode ? data?.shippingAddress?.postalCode : ""}`}
             </MDTypography>
           </MDBox>
         </MDBox>

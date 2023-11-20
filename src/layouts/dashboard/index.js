@@ -23,6 +23,7 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
+import Transactions from "layouts/transactions/components/Transactions";
 
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
@@ -37,7 +38,7 @@ import axios from "axios";
 import { baseUrl } from "utils/constants";
 import { apiV1 } from "utils/constants";
 import Cookies from "universal-cookie";
-import Transactions from "layouts/billing/components/Transactions";
+// import Transactions from "layouts/billing/components/Transactions";
 
 function Dashboard() {
   const cookies = new Cookies();
@@ -46,6 +47,7 @@ function Dashboard() {
   const [count, setCount] = useState(1);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const [creditHistoryData, setCreditHistoryData] = useState([]);
   const headers = {
     Authorization: `Bearer ${cookies.get("token")}`,
     "Content-Type": "application/json",
@@ -64,31 +66,54 @@ function Dashboard() {
   };
   useEffect(() => {
     getAllProject();
+    getCreditHistory();
   }, []);
+
+  const getCreditHistory = async () => {
+    const res = await axios.get(
+      baseUrl +
+        apiV1 +
+        "/users/credit_history?projectBy=createdAt,updatedAt,amount,type,balance_after&sortBy=createdAt:desc&limit=5",
+      {
+        headers,
+      }
+    );
+    if (res.status === 200) {
+      setCreditHistoryData(res.data.results);
+      // setSaveData(res.data.results);
+      // setIsLoading(false);
+    }
+  };
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox py={3} minHeight={"80vh"}>
+      <MDBox py={3} minHeight={"85vh"}>
         <MDBox>
           <Grid container spacing={3}>
             {isLoading ? (
               <></>
             ) : saveData.length > 0 ? (
-              <Grid item xs={8} height={"70vh"}>
-                <Projects
-                  setPage={setPage}
-                  count={count}
-                  page={page}
-                  saveData={saveData}
-                  setSaveData={setSaveData}
-                  open={open}
-                  setOpen={setOpen}
-                  onSuccessPost={getAllProject}
-                />
-              </Grid>
+              <>
+                <Grid item xs={8}>
+                  <Projects
+                    setPage={setPage}
+                    count={count}
+                    page={page}
+                    saveData={saveData}
+                    setSaveData={setSaveData}
+                    open={open}
+                    setOpen={setOpen}
+                    onSuccessPost={getAllProject}
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <Transactions data={creditHistoryData} />
+                </Grid>
+              </>
             ) : (
-              <Grid item xs={12} height={"70vh"}>
+              <Grid item xs={12}>
                 <AddFile
                   saveData={saveData}
                   setSaveData={setSaveData}

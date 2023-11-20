@@ -50,13 +50,12 @@ function TransactionsTable() {
     const res = await axios.get(
       baseUrl +
         apiV1 +
-        "/users/credit_history?projectBy=createdAt,updatedAt,amount,type,balance_after&sortBy=createdAt:desc",
+        "/users/credit_history?projectBy=createdAt,updatedAt,amount,type,balance_after&sortBy=createdAt:desc&limit=10",
       {
         headers,
       }
     );
     if (res.status === 200) {
-      console.log(res.data);
       setCreditHistoryData(res.data.results);
       // setSaveData(res.data.results);
       // setIsLoading(false);
